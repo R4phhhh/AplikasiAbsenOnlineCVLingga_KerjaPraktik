@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "90304196213",
+    "project_id": "project-kp-fd649",
+    "storage_bucket": "project-kp-fd649.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90304196213:android:7915787e125e2ee3d4123c",
+        "android_client_info": {
+          "package_name": "com.example.aplikasi_absen_online"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAXc35a1aaCjdF0CzH7s56_uEHZAj8lys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
