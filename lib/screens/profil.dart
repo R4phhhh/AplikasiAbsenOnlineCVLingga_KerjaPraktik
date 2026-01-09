@@ -42,14 +42,12 @@ class _ProfilScreenState extends State<ProfilScreen> {
     }
   }
 
-  // ================= GANTI FOTO =================
   Future<void> gantiFoto() async {
     final picker = ImagePicker();
     final XFile? picked = await picker.pickImage(source: ImageSource.gallery);
 
     if (picked == null) return;
 
-    // 🔥 Convert ke WEBP + compress
     final compressedBytes = await FlutterImageCompress.compressWithFile(
       picked.path,
       format: CompressFormat.webp,
@@ -58,13 +56,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
     if (compressedBytes == null) return;
 
-    // 🔥 Encode Base64
     final base64Image = base64Encode(compressedBytes);
-
-    // 🔥 FORMAT FINAL (INI YANG KAMU MAU)
     final avatar = 'data:image/webp;base64,$base64Image';
 
-    // 🔥 Update Firestore
     final snap =
         await FirebaseFirestore.instance
             .collection('supervisors')
@@ -88,7 +82,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
 
-      // ================= HEADER =================
       body: Column(
         children: [
           Container(
@@ -130,7 +123,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                               );
                             }
                             if (a is String) {
-                              // Try decode as base64 if it looks like base64
                               if (a.contains(',') || a.length > 20) {
                                 String b64 = a.contains(',') ? a.split(',').last : a;
                                 b64 = b64.replaceAll(RegExp(r'\s+'), '');
@@ -139,10 +131,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
                                 try {
                                   return Image.memory(base64Decode(b64), fit: BoxFit.cover);
                                 } catch (_) {
-                                  // not base64, treat as initials
                                 }
                               }
-                              // Display as initials
                               return Container(
                                 color: Colors.blue.shade400,
                                 child: Center(
@@ -175,7 +165,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         ),
                       ),
 
-                      // ✏️ ICON EDIT
                       Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
@@ -218,7 +207,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
             ),
           ),
 
-          // ================= INFO CARD =================
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Container(
@@ -257,7 +245,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
             ),
           ),
 
-          // ================= LOGOUT =================
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
             child: OutlinedButton(
@@ -283,7 +270,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
         ],
       ),
 
-      // ================= BOTTOM NAV =================
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 1,
         selectedItemColor: const Color(0xFF2563EB),

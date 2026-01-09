@@ -58,14 +58,12 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
 
       final now = DateTime.now();
 
-      // Senin minggu ini
       final senin = DateTime(
         now.year,
         now.month,
         now.day,
       ).subtract(Duration(days: now.weekday - 1));
 
-      // Minggu minggu ini
       final minggu = senin.add(const Duration(days: 6));
 
       startDate = senin;
@@ -91,7 +89,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
     }
   }
 
-  // Fungsi untuk mendapatkan semua nama pekerja unik
   List<String> getAllPekerjaNames() {
     final Set<String> names = {};
     for (var doc in data) {
@@ -103,7 +100,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
     return names.toList()..sort();
   }
 
-  // Fungsi untuk mendapatkan data pekerja per tanggal
   Map<String, Map<String, dynamic>> getPekerjaDataByDate() {
     final Map<String, Map<String, dynamic>> result = {};
 
@@ -125,7 +121,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Hitung total kehadiran
     int totalHadir = 0;
     int totalIzin = 0;
     int totalAlpha = 0;
@@ -142,7 +137,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
     final pekerjaNames = getAllPekerjaNames();
     final pekerjaDataByDate = getPekerjaDataByDate();
 
-    // List tanggal dalam minggu
     final List<DateTime> weekDates = [];
     for (int i = 0; i < 7; i++) {
       weekDates.add(startDate.add(Duration(days: i)));
@@ -164,7 +158,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
             )
           : Column(
               children: [
-                // ================= HEADER INFO =================
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
@@ -203,7 +196,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
 
                 const SizedBox(height: 16),
 
-                // ================= RINGKASAN KEHADIRAN =================
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   padding: const EdgeInsets.all(16),
@@ -266,7 +258,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
 
                 const SizedBox(height: 16),
 
-                // ================= DETAIL PER PEKERJA =================
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
@@ -285,7 +276,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
 
                 const SizedBox(height: 12),
 
-                // ================= LIST PEKERJA =================
                 Expanded(
                   child: data.isEmpty
                       ? Center(
@@ -312,7 +302,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
                             final nama = pekerjaNames[index];
                             final pekerjaData = pekerjaDataByDate[nama] ?? {};
 
-                            // Hitung statistik hanya untuk hari yang ada data
                             int hadir = 0;
                             int izin = 0;
                             int alpha = 0;
@@ -329,7 +318,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
                               }
                             }
 
-                            // Hitung persentase kehadiran (hanya dari hari yang ada data)
                             final persentase = totalHariAda > 0
                                 ? ((hadir / totalHariAda) * 100).round()
                                 : 0;
@@ -352,7 +340,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Nama & Persentase
                                     Row(
                                       children: [
                                         Expanded(
@@ -392,7 +379,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
 
                                     const SizedBox(height: 12),
 
-                                    // Grid Hari
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -449,7 +435,6 @@ class _RekapMingguanScreenState extends State<RekapMingguanScreen> {
 
                                     const SizedBox(height: 12),
 
-                                    // Summary Icons
                                     Row(
                                       children: [
                                         _statusIcon(

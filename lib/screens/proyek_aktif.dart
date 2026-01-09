@@ -69,7 +69,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
 
-      // ================= APP BAR =================
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(170),
         child: Container(
@@ -98,7 +97,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
               ),
               const SizedBox(height: 16),
 
-              // 🔍 SEARCH BAR
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -113,12 +111,12 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
                     hintText: 'Cari proyek...',
                     hintStyle: TextStyle(color: Colors.grey.shade400),
                     prefixIcon: Icon(Icons.search, color: Colors.grey.shade600),
-                    isDense: true, // 🔑 penting
+                    isDense: true,
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 12,
-                      vertical: 10, // 🔑 lebih kecil & aman
+                      vertical: 10,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -132,7 +130,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
         ),
       ),
 
-      // ================= BODY =================
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('projects')
@@ -226,7 +223,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // ===== NAMA PROYEK & STATUS =====
                         Row(
                           children: [
                             Expanded(
@@ -259,7 +255,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
 
                         const SizedBox(height: 12),
 
-                        // ===== LOKASI =====
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -274,7 +269,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
                                   builder: (context) {
                                     final lokasi = data['lokasi'];
 
-                                    // If lokasi is already a display string in the DB, show it directly
                                     if (lokasi is String && lokasi.isNotEmpty) {
                                       return Text(
                                         lokasi,
@@ -285,7 +279,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
                                       );
                                     }
 
-                                    // Otherwise try to extract lat/lng and reverse-geocode
                                     double lat = 0.0, lng = 0.0;
                                     if (lokasi is Map) {
                                       lat = _toDouble(lokasi['lat']);
@@ -330,7 +323,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
 
                         const SizedBox(height: 12),
 
-                        // ===== INFO BAR =====
                         Row(
                           children: [
                             Icon(
@@ -351,7 +343,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
 
                         const SizedBox(height: 12),
 
-                        // ===== STATUS BADGE =====
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -380,7 +371,6 @@ class _ProyekAktifScreenState extends State<ProyekAktifScreen> {
         },
       ),
 
-      // ================= BOTTOM NAV =================
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         selectedItemColor: const Color(0xFF2563EB),

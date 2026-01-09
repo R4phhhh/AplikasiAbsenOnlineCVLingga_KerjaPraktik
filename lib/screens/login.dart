@@ -26,7 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // 1️⃣ LOGIN AUTH (HANYA UNTUK AMBIL UID)
       final cred = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
@@ -35,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
       final user = cred.user;
       if (user == null) throw Exception('User null');
 
-      // 2️⃣ CEK KE COLLECTION SUPERVISORS SAJA
       final snap =
           await FirebaseFirestore.instance
               .collection('supervisors')
@@ -44,9 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
               .limit(1)
               .get();
 
-      // ❌ BUKAN SUPERVISOR → TENDANG
       if (snap.docs.isEmpty) {
-        // 🛑 SIGNOUT & TUNGU SEBELUM TAMPIL ERROR
         await FirebaseAuth.instance.signOut();
         await Future.delayed(const Duration(milliseconds: 500));
 
@@ -61,14 +57,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
       final data = snap.docs.first.data();
 
-      // ✅ HANYA SAMPAI SINI YANG BOLEH MASUK
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const ProyekAktifScreen()),
       );
     } catch (e) {
-      // 🛑 JIKA ERROR, PASTIKAN SIGNOUT TERJADI DAN TUNGGU
       try {
         await FirebaseAuth.instance.signOut();
         await Future.delayed(const Duration(milliseconds: 500));
@@ -94,7 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // === LOGO CV. LINGGA ===
               const Text(
                 'CV. LINGGA',
                 style: TextStyle(
@@ -106,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 48),
 
-              // === CARD LOGIN ===
               Container(
                 constraints: const BoxConstraints(maxWidth: 400),
                 decoration: BoxDecoration(
@@ -134,7 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 24),
 
-                    // === EMAIL ===
                     const Text(
                       'Email',
                       style: TextStyle(
@@ -170,7 +161,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 20),
 
-                    // === PASSWORD ===
                     const Text(
                       'Password',
                       style: TextStyle(
@@ -207,7 +197,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 28),
 
-                    // === SIGN IN BUTTON ===
                     SizedBox(
                       width: double.infinity,
                       height: 48,

@@ -89,7 +89,6 @@ class _DetailProyekScreenState extends State<DetailProyekScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
         children: [
-          // ================= HEADER CARD =================
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -147,7 +146,6 @@ class _DetailProyekScreenState extends State<DetailProyekScreen> {
 
           const SizedBox(height: 16),
 
-          // ================= INFORMASI DETAIL =================
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -277,7 +275,6 @@ class _DetailProyekScreenState extends State<DetailProyekScreen> {
 
           const SizedBox(height: 16),
 
-          // ================= DESKRIPSI PROYEK =================
           Container(
             decoration: BoxDecoration(
               color: Colors.white,

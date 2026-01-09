@@ -217,7 +217,6 @@ class _AbsensiScreenState extends State<AbsensiScreen> {
 
       body: Column(
         children: [
-          // ================= HEADER INFO =================
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
@@ -277,7 +276,6 @@ class _AbsensiScreenState extends State<AbsensiScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // ================= BATAS HADIR =================
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                       color: Colors.white,
@@ -312,7 +310,6 @@ class _AbsensiScreenState extends State<AbsensiScreen> {
                       ),
                     ),
 
-                    // ================= RINGKASAN KEHADIRAN =================
                     Container(
                       padding: const EdgeInsets.all(20),
                       margin: const EdgeInsets.all(16),
@@ -339,7 +336,6 @@ class _AbsensiScreenState extends State<AbsensiScreen> {
                       ),
                     ),
 
-                    // lock button / notice
                     if (!isLocked)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
@@ -432,7 +428,6 @@ class _AbsensiScreenState extends State<AbsensiScreen> {
                         ),
                       ),
 
-                    // ================= DAFTAR PEKERJA =================
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
@@ -573,7 +568,6 @@ class _AbsensiScreenState extends State<AbsensiScreen> {
             ),
           ),
 
-          // ================= BUTTONS =================
           SafeArea(
             top: false,
             left: false,
