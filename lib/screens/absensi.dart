@@ -743,21 +743,77 @@ class _AbsensiScreenState extends State<AbsensiScreen> {
   }
 
   Future<void> kunciAbsensi() async {
-    if (absensiDocRef == null) return;
+    try {
+      // Simpan data absensi terlebih dahulu
+      final List<Map<String, dynamic>> dataPekerja =
+          pekerja.map((p) {
+            final map = {
+              'id': p['id'],
+              'nama': p['nama'],
+              'status': p['status'],
+              'telatMenit': p['telatMenit'] ?? 0,
+            };
 
-    await absensiDocRef!.update({
-      'isLocked': true,
-      'lockedAt': Timestamp.now(),
-    });
+            if (p['status'] == 'izin' &&
+                p['keterangan'] != null &&
+                p['keterangan'].toString().isNotEmpty) {
+              map['keterangan'] = p['keterangan'];
+            }
 
-    setState(() => isLocked = true);
+            return map;
+          }).toList();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('🔒 Absensi berhasil dikunci'),
-        backgroundColor: Colors.red,
-      ),
-    );
+      if (absensiDocRef != null) {
+        // Update dokumen yang sudah ada
+        await absensiDocRef!.update({
+          'dataPekerja': dataPekerja,
+          'rekap': {
+            'hadir': totalHadir,
+            'izin': totalIzin,
+            'alpha': totalAlpha,
+          },
+          'batasHadir': {'hour': batasHadir.hour, 'minute': batasHadir.minute},
+          'updatedAt': Timestamp.now(),
+          'isLocked': true,
+          'lockedAt': Timestamp.now(),
+        });
+      } else {
+        // Buat dokumen baru kemudian langsung kunci
+        final doc = await FirebaseFirestore.instance.collection('absensi').add({
+          'proyekId': widget.proyekDocId,
+          'tanggal': DateFormat('yyyy-MM-dd').format(selectedDate),
+          'supervisorUid': widget.proyek['supervisor']['uid'],
+          'dataPekerja': dataPekerja,
+          'rekap': {
+            'hadir': totalHadir,
+            'izin': totalIzin,
+            'alpha': totalAlpha,
+          },
+          'batasHadir': {'hour': batasHadir.hour, 'minute': batasHadir.minute},
+          'isLocked': true,
+          'createdAt': Timestamp.now(),
+          'lockedAt': Timestamp.now(),
+        });
+
+        absensiDocRef = doc;
+      }
+
+      setState(() => isLocked = true);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('🔒 Absensi berhasil disimpan dan dikunci'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('❌ Gagal mengunci absensi: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   Future<void> konfirmasiKunciAbsensi() async {
